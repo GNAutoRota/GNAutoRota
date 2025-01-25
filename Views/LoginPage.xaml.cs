@@ -5,6 +5,7 @@ public partial class LoginPage : ContentPage
 	public LoginPage()
 	{
 		InitializeComponent();
+		BindingContext = new LoginViewModel(Navigation);
 	}
 
 	private void VisualizaSenha(object Sender, EventArgs e)
@@ -14,7 +15,7 @@ public partial class LoginPage : ContentPage
 
 	private void OnClickLogin(object Sender, EventArgs e)
 	{
-		if ((userEntry.Text is null) || (passwordEntry.Text is null))
+		/*if ((userEntry.Text is null) || (passwordEntry.Text is null))
 		{
 			DisplayAlert("Autenticação", "Usuário ou senha incorretos", "Ok");
 			return;
@@ -29,7 +30,7 @@ public partial class LoginPage : ContentPage
 			return;
 		}
 
-		DisplayAlert("Autenticação", "Logado com sucesso!", "Ok");
+		DisplayAlert("Autenticação", "Logado com sucesso!", "Ok"); */
 
     }
 }
