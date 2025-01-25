@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GNAutoRota.Views.LoginPage"
+             BackgroundColor="LightGrey">
+    <ScrollView>
+        <VerticalStackLayout 
+            Padding="30,0"
+            Spacing="25">
+
+        <!-- Imagem (logo) -->
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" 
+                Margin="0,50"
+             />
+        
+
+        <!-- Box contendo a tela de login -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="10"
+               HeightRequest="300" 
+               WidthRequest="300"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="EndAndExpand"
+               Margin="0,110">
+
+               <StackLayout>
+            
+                    <Label Text="Login"
+                        FontSize="18"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="Start"
+                        FontFamily="Arial"
+                        FontAttributes="Bold"
+                     />
+
+                    <StackLayout Margin="10" Spacing="10">
+
+
+                        <Label Text="Usuário"
+                            FontSize="12"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Start"
+                            FontFamily="Arial"
+                            FontAttributes="Bold"
+                         />
+
+                        <Frame BackgroundColor="LightGray" CornerRadius="10" Margin="-1"
+                            HeightRequest="40"
+                            WidthRequest="255"
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="EndAndExpand">
+
+                            <Entry 
+                                Margin="-1"
+                                Placeholder="Digite seu usuário"
+                                PlaceholderColor="Grey"
+                                x:Name="userEntry"
+                                Keyboard="Text"
+                                HeightRequest="60"
+                                MaxLength="40"
+                             />
+                        </Frame>
+
+                        <Label Text="Senha"
+                            FontSize="12"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Start"
+                             FontFamily="Arial"
+                             FontAttributes="Bold"
+                         />
+
+                        <Frame BackgroundColor="LightGray" CornerRadius="10" Margin="-1"
+                            HeightRequest="40"
+                            WidthRequest="255"
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="EndAndExpand">
+
+
+                            <Entry 
+                                IsPassword="True"
+                                Margin="-1"
+                                Placeholder="Digite sua senha"
+                                PlaceholderColor="Grey"
+                                x:Name="passwordEntry"
+                                Keyboard="Text"
+                                HeightRequest="60"
+                                MaxLength="40">
+                            </Entry>
+
+                        </Frame>
+
+                        <!-- Botão de entrar -->
+                        <Button Text="Entrar"
+                            Margin="35"
+                            FontSize="16"
+                            BackgroundColor="#0078D4"
+                            TextColor="White"
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="EndAndExpand"
+                            WidthRequest="250"
+                            FontFamily="Arial"
+                            Clicked="OnClickLogin"
+                         />
+
+                    </StackLayout>
+                </StackLayout>            
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
