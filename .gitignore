@@ -1,0 +1,94 @@
+# Build e artefatos do sistema
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+*.vspscc
+*.vssscc
+
+# Configurações de IDE e arquivos específicos do Visual Studio
+.vs/
+.idea/
+*.userprefs
+*.suo
+*.user
+*.sln.docstates
+
+# Arquivos de log e temporários
+*.log
+*.tmp
+*.temp
+
+# Arquivos de pacotes NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Configurações específicas do macOS (se estiver usando)
+.DS_Store
+
+# Configurações de arquivos XAML e IntelliSense
+*.g.*
+*.i.*
+*_ViewImports.cs
+*_ViewStart.cs
+
+# Configurações específicas de Android
+.gradle/
+.localhistory/
+**/android/bin/
+**/android/obj/
+**/android/src/
+**/android/build/
+.idea/
+.build-cache/
+*.apk
+*.ap_
+
+# Configurações específicas de iOS
+**/ios/bin/
+**/ios/obj/
+**/ios/build/
+*.ipa
+
+# Arquivos de cache do Maui
+App_Resources/
+Resources/Raw/*.zip
+
+# Certificados e senhas
+*.keystore
+*.jks
+*.pfx
+*.key
+
+# Arquivos de cache do Rider
+.idea/
+.idea_modules/
+*.iml
+
+# Arquivos de banco de dados local SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos do sistema operacional
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Arquivos de logs do MAUI e debug
+*.tlog
+*.ilk
+*.idb
+*.ipch
+*.rsp
+*.sbr
+
+# Arquivos de Configuração do Firebase (se estiver usando)
+google-services.json
+GoogleService-Info.plist
