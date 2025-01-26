@@ -4,8 +4,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using GNAutoRota.Classes;
 using Newtonsoft.Json;
 
 namespace GNAutoRota.Views
@@ -64,8 +67,35 @@ namespace GNAutoRota.Views
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Alerta", ex.Message, "Ok");
-                throw;
+                
+                string jSonResponse = JsonConvert.SerializeObject(ex.Message);
+                Match match = Regex.Match(jSonResponse, @"Response:\s*(\{.*\})", RegexOptions.Singleline);
+
+                string response;
+                if (match.Success)
+                {
+                    response = match.Groups[1].Value;
+                }
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Alerta", ex.Message, "Ok");
+                    throw;
+                }
+
+                string jsonLimpo = response.Replace("\\n", "").Replace("\\\"", "\"");
+                jsonLimpo = Regex.Replace(jsonLimpo, @"\s+", "");
+
+                var jSonObject = JsonConvert.DeserializeObject<ApiResponse>(jsonLimpo);
+                
+                switch (jSonObject.Error.mensagem.ToLower())
+                {
+                   case "invalid_email":
+                        {
+                            await App.Current.MainPage.DisplayAlert("Alerta", "email inválido", "Ok");
+                            break;
+                        }
+
+                }
             }
             
         }
