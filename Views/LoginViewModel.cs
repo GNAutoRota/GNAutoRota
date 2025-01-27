@@ -91,10 +91,19 @@ namespace GNAutoRota.Views
                 {
                    case "invalid_email":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "email inválido", "Ok");
+                            await App.Current.MainPage.DisplayAlert("Alerta", "Email inválido", "Ok");
                             break;
                         }
-
+                   case "missing_password":
+                        {
+                            await App.Current.MainPage.DisplayAlert("Alerta", "Falta adicionar uma senha", "Ok");
+                            break;
+                        }
+                   case "invalid_login_credentials":
+                        {
+                            await App.Current.MainPage.DisplayAlert("Alerta", "Email ou senha incorretos", "Ok");
+                            break;
+                        }
                 }
             }
             
