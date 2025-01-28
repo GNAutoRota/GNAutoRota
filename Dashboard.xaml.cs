@@ -6,16 +6,22 @@ namespace GNAutoRota
 {
 	public partial class Dashboard : ContentPage
 	{
-		public Dashboard()
+        private readonly UserInfo _userInfo;
+
+        public Dashboard(UserInfo userInfo)
 		{
-			InitializeComponent();
-			GetProfileInfo();
+            _userInfo = userInfo;
+            InitializeComponent();
+            GetProfileInfo();
+			
 		}
 
 		private void GetProfileInfo()
 		{
-			var userInfo = JsonConvert.DeserializeObject<Firebase.Auth.FirebaseAuth>(Preferences.Get("FreshFirebaseToken", ""));
-			UserEmail.Text = userInfo.User.Email;
-		}
+			var userInfo = JsonConvert.DeserializeObject<Firebase.Auth.UserInfo>(Preferences.Get("FreshFirebaseToken", ""));
+            UserEmail.Text = userInfo.Email;
+            UserEmail.Text = _userInfo.Email;
+			
+        }
 	}
 }

@@ -16,6 +16,7 @@ namespace GNAutoRota.Views
     internal class LoginViewModel: INotifyPropertyChanged
     {
         public string webapikey = "AIzaSyAZ_nfIgxri-xNGEM6tXQVAYX6lfX_7PTY";
+        private readonly FirebaseAuthClient _firebaseAuthClient;
 
         private INavigation _navigation;
         private string email;
@@ -45,25 +46,23 @@ namespace GNAutoRota.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
         }
 
-        public LoginViewModel(INavigation navigation) 
+        public LoginViewModel(INavigation navigation, FirebaseAuthClient firebaseAuthClient) 
         {
             this._navigation = navigation;
             OnLoginbtn = new Command(OnLoginbtnTappedAsync);
+            _firebaseAuthClient = firebaseAuthClient;
         }
 
 
         private async void OnLoginbtnTappedAsync(object obj)
         {
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webapikey));
             try
             {
-                var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email,Password);
-                var content = await auth.GetFreshAuthAsync();
-                var serializedContent = JsonConvert.SerializeObject(content);
-                Preferences.Set("FreshFirebaseToken", serializedContent);
-                
+                var auth = await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(Email,Password);
 
-                await this._navigation.PushAsync(new Dashboard());
+                var user = new UserInfo();
+                
+                await this._navigation.PushAsync(new Dashboard(user));
             }
             catch (Exception ex)
             {

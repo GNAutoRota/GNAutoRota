@@ -1,11 +1,15 @@
+using Firebase.Auth;
+using System.Security.Cryptography.X509Certificates;
+
 namespace GNAutoRota.Views;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
+	public LoginPage(FirebaseAuthClient firebaseAuthClient)
 	{
+	
 		InitializeComponent();
-		BindingContext = new LoginViewModel(Navigation);
+		BindingContext = new LoginViewModel(Navigation, firebaseAuthClient);
 	}
 
 	private void VisualizaSenha(object Sender, EventArgs e)
