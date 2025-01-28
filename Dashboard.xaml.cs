@@ -6,11 +6,11 @@ namespace GNAutoRota
 {
 	public partial class Dashboard : ContentPage
 	{
-        private readonly UserInfo _userInfo;
+        private readonly FirebaseAuthClient _firebaseAuthClient;
 
-        public Dashboard(UserInfo userInfo)
+        public Dashboard(FirebaseAuthClient firebaseAuthClient)
 		{
-            _userInfo = userInfo;
+            _firebaseAuthClient = firebaseAuthClient;
             InitializeComponent();
             GetProfileInfo();
 			
@@ -18,10 +18,7 @@ namespace GNAutoRota
 
 		private void GetProfileInfo()
 		{
-			var userInfo = JsonConvert.DeserializeObject<Firebase.Auth.UserInfo>(Preferences.Get("FreshFirebaseToken", ""));
-            UserEmail.Text = userInfo.Email;
-            UserEmail.Text = _userInfo.Email;
-			
+			UserEmail.Text = _firebaseAuthClient.User.Info.Email;
         }
 	}
 }

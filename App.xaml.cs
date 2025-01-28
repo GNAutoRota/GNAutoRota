@@ -7,21 +7,19 @@ namespace GNAutoRota
     public partial class App : Application
     {
         private readonly FirebaseAuthClient _firebaseAuthClient;
-        private readonly UserInfo _userInfo;
-        public App(FirebaseAuthClient firebaseAuthClient, UserInfo userInfo)
+        public App(FirebaseAuthClient firebaseAuthClient)
         {
             InitializeComponent();
             _firebaseAuthClient = firebaseAuthClient;
-            _userInfo = userInfo;
             var user = _firebaseAuthClient.User;
 
-            if (user.Info?.Email == null)
+            if (user is null)
             {
                 MainPage = new NavigationPage(new LoginPage(_firebaseAuthClient));
             }
             else
             {
-                MainPage = new NavigationPage(new Dashboard(_userInfo));
+                MainPage = new NavigationPage(new Dashboard(_firebaseAuthClient));
             }
 
 

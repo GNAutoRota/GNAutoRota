@@ -15,7 +15,6 @@ namespace GNAutoRota.Views
 {
     internal class LoginViewModel: INotifyPropertyChanged
     {
-        public string webapikey = "AIzaSyAZ_nfIgxri-xNGEM6tXQVAYX6lfX_7PTY";
         private readonly FirebaseAuthClient _firebaseAuthClient;
 
         private INavigation _navigation;
@@ -59,10 +58,8 @@ namespace GNAutoRota.Views
             try
             {
                 var auth = await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(Email,Password);
-
-                var user = new UserInfo();
                 
-                await this._navigation.PushAsync(new Dashboard(user));
+                await this._navigation.PushAsync(new Dashboard(_firebaseAuthClient));
             }
             catch (Exception ex)
             {
