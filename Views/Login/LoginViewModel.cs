@@ -11,7 +11,7 @@ using Firebase.Auth;
 using GNAutoRota.Classes;
 using Newtonsoft.Json;
 
-namespace GNAutoRota.Views
+namespace GNAutoRota.Views.Login
 {
     internal class LoginViewModel: INotifyPropertyChanged
     {
