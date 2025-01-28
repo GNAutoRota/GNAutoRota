@@ -1,3 +1,5 @@
+using GNAutoRota.Views.Login;
+
 namespace GNAutoRota.Views;
 
 public partial class LoginPage : ContentPage
