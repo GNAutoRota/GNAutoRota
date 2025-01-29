@@ -1,0 +1,25 @@
+name: Build on Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main 
+
+jobs:
+  build:
+    runs-on: windows-latest # Ambiente Windows é necessário para MSBuild e projetos .NET
+
+    steps:
+      # 1. Fazer checkout do repositório
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Restaurar dependências NuGet 
+      - name: Restore NuGet packages
+        run: nuget restore GNAutoRota.sln
+
+      # 3. Compilar o projeto
+      - name: Build project
+        run: |
+          echo "Iniciando compilação do projeto..."
+          dotnet build GNAutoRota.sln --configuration Release
