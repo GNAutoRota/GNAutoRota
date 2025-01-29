@@ -22,4 +22,4 @@ jobs:
       - name: Build project
         run: |
           echo "Iniciando compilação do projeto..."
-          msbuild GNAutoRota.sln /p:Configuration=Release
+          dotnet build GNAutoRota.sln --configuration Release
