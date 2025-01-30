@@ -74,23 +74,40 @@
                          />
 
                         <Frame BackgroundColor="LightGray" CornerRadius="10" Margin="-1"
-                            HeightRequest="40"
-                            WidthRequest="255"
-                            HorizontalOptions="StartAndExpand"
-                            VerticalOptions="EndAndExpand">
+                               HeightRequest="40"
+                               WidthRequest="255"
+                               HorizontalOptions="StartAndExpand"
+                               VerticalOptions="CenterAndExpand"
+                               Padding="2"
+                               >
 
 
-                            <Entry 
-                                IsPassword="True"
-                                Margin="-1"
-                                Placeholder="Digite sua senha"
-                                PlaceholderColor="Grey"
-                                Text="{Binding Password}"
-                                Keyboard="Text"
-                                HeightRequest="60"
-                                MaxLength="40">
-                            </Entry>
+                            <StackLayout Orientation="Horizontal" Spacing="10" VerticalOptions="CenterAndExpand" >
+                                <Entry 
+                                    x:Name="passwordEntry"
+                                    IsPassword="True"
+                                    Margin="17,0,-15,0"
+                                    Placeholder="Digite sua senha"
+                                    PlaceholderColor="Grey"
+                                    Text="{Binding Password}"
+                                    Keyboard="Text"
+                                    HeightRequest="51"
+                                    MaxLength="40" 
+                                    HorizontalOptions="FillAndExpand"
+                                />
 
+                                <!-- Botão para alternar a visibilidade da senha -->
+                                <ImageButton 
+                                    Source="hide.png"
+                                    Clicked="OnTogglePasswordClicked"
+                                    HeightRequest="30"
+                                    WidthRequest="25"                                
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="End"
+                                    Margin="10"
+                                />
+                                
+                            </StackLayout>
                         </Frame>
 
                         <!-- Botão de entrar -->
