@@ -10,12 +10,17 @@ public partial class LoginPage : ContentPage
 		BindingContext = new LoginViewModel(Navigation);
 	}
 
-	private void VisualizaSenha(object Sender, EventArgs e)
+	private void OnTogglePasswordClicked(object Sender, EventArgs e)
 	{
-		//passwordEntry.IsPassword = !passwordEntry.IsPassword;
-	}
+        passwordEntry.IsPassword = !passwordEntry.IsPassword;
 
-	private void OnClickLogin(object Sender, EventArgs e)
+        var imageButton = (ImageButton)Sender;
+        imageButton.Source = passwordEntry.IsPassword ? "view.png" : "hide.png";
+    }
+
+ 
+
+    private void OnClickLogin(object Sender, EventArgs e)
 	{
 		/*if ((userEntry.Text is null) || (passwordEntry.Text is null))
 		{
