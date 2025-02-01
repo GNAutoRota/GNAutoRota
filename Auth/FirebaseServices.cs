@@ -29,16 +29,19 @@ namespace GNAutoRota.Auth
         {
             if (e.User != null)
             {
+                //Lógica de autenticação
                 Console.WriteLine($"Usuário autenticado: {e.User.Info.DisplayName}");
             }
             else
             {
-                Console.WriteLine("Usuário deslogado.");
+                //vai pra login
+                //Console.WriteLine("Usuário deslogado.");
             }
         }
 
         public static async Task Login(string email,  string password, INavigation navigation)
         {
+            
             await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(email, password);
             // Salvar o token de autenticação localmente para manter a sessão
             Preferences.Set("FIREBASE_REFRESHTOKEN", _firebaseAuthClient.User.Credential.RefreshToken);
@@ -47,21 +50,21 @@ namespace GNAutoRota.Auth
             await navigation.PushAsync(new Dashboard(_firebaseAuthClient));
 
         }
-        public async Task RestauraSessao()
+        public static async Task RestauraSessao()
         {
             var refreshToken = Preferences.Get("FIREBASE_REFRESHTOKEN", null);
             var uid = Preferences.Get("FIREBASE_UID", null);
 
             if (string.IsNullOrEmpty(refreshToken) || string.IsNullOrEmpty(uid))
             {
-                Console.WriteLine("Nenhum token ou UID encontrado. O usuário precisa fazer login.");
+                //Console.WriteLine("Nenhum token ou UID encontrado. O usuário precisa fazer login.");
                 return;
             }
 
             //Recuperar o IdToken
             try
             {
-                string novoIdToken = await RefreshIdTokenAsync(refreshToken);
+                var novoIdToken = await RefreshIdTokenAsync(refreshToken);
                 //var userInfo = JsonConvert.DeserializeObject<FirebaseAuth>(Preferences.Get("FIREBASE_IDTOKEN", ""));
 
                 if (!string.IsNullOrEmpty(novoIdToken)) 
@@ -70,11 +73,8 @@ namespace GNAutoRota.Auth
 
                     if ((tokenDecodificado is not null) || (tokenDecodificado.Uid == uid))
                     {
-
-                        if (_firebaseAuthClient.User.Info.Uid is null)
-                        {
-                            _firebaseAuthClient.User.Info.Uid = tokenDecodificado.Uid;
-                        }
+                        
+                        _firebaseAuthClient.User.Info.Uid = tokenDecodificado.Uid;
 
                         await _navigation.PushAsync(new Dashboard(_firebaseAuthClient));
                         
@@ -89,7 +89,7 @@ namespace GNAutoRota.Auth
             }
         }
 
-        private async Task<FirebaseToken> DecodeIdTokenAsync(string idToken)
+        private static async Task<FirebaseToken> DecodeIdTokenAsync(string idToken)
         {
             try
             {
@@ -119,9 +119,10 @@ namespace GNAutoRota.Auth
             public string Uid { get; set; }
         }
 
-        private async Task<string> RefreshIdTokenAsync(string refreshToken)
+        private static async Task<string> RefreshIdTokenAsync(string refreshToken)
         {
-            var url = $"https://securetoken.googleapis.com/v1/token?key={""}";
+
+            var url = $"https://securetoken.googleapis.com/v1/token?key={"AIzaSyAZ_nfIgxri-xNGEM6tXQVAYX6lfX_7PTY"}";
             var payload = new
             {
                 grant_type = "refresh_token",

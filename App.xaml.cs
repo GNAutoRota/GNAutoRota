@@ -16,7 +16,6 @@ namespace GNAutoRota
             
             InitializeComponent();
             _firebaseAuthClient = firebaseAuthClient;
-            //var teste = FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token);
             
             MainPage = new NavigationPage(new LoginPage(_firebaseAuthClient));
             
@@ -29,6 +28,7 @@ namespace GNAutoRota
             base.OnStart();
             // Lógica para quando o app Iniciar
             FirebaseServices.InicializarFirebase(_firebaseAuthClient);
+            FirebaseServices.RestauraSessao();
             /*FirebaseServices.RestauraSessao().ContinueWith(task =>
             {
                 if (task.IsFaulted)
@@ -43,7 +43,7 @@ namespace GNAutoRota
         {
             base.OnResume();
             // Lógica para quando o app volta para o primeiro plano
-            //FirebaseServices.RestauraSessao();
+            FirebaseServices.RestauraSessao();
         }
 
     }
