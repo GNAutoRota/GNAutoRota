@@ -1,5 +1,6 @@
 ﻿using Firebase.Auth;
 using Firebase.Auth.Providers;
+using FirebaseAdmin;
 using Microsoft.Extensions.Logging;
 
 namespace GNAutoRota
@@ -20,10 +21,10 @@ namespace GNAutoRota
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-            
+
 
             builder.Services.AddSingleton(new FirebaseAuthClient(new FirebaseAuthConfig()
-            {
+            { 
                 ApiKey = "AIzaSyAZ_nfIgxri-xNGEM6tXQVAYX6lfX_7PTY",
                 AuthDomain = "gnautorota.firebaseapp.com",
                 Providers = [new EmailProvider()]

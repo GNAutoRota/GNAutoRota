@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using GNAutoRota.Auth;
 using GNAutoRota.Classes;
 using Newtonsoft.Json;
 
@@ -57,9 +58,7 @@ namespace GNAutoRota.Views
         {
             try
             {
-                var auth = await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(Email,Password);
-                
-                await this._navigation.PushAsync(new Dashboard(_firebaseAuthClient));
+                await FirebaseServices.Login(Email, Password, this._navigation);
             }
             catch (Exception ex)
             {
@@ -92,7 +91,12 @@ namespace GNAutoRota.Views
                         }
                    case "missing_password":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "Falta adicionar uma senha", "Ok");
+                            await App.Current.MainPage.DisplayAlert("Alerta", "campo senha está em branco", "Ok");
+                            break;
+                        }
+                    case "missing_email":
+                        {
+                            await App.Current.MainPage.DisplayAlert("Alerta", "campo email está em branco", "Ok");
                             break;
                         }
                    case "invalid_login_credentials":
