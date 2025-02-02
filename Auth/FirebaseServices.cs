@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using FirebaseAdmin.Auth;
 using GNAutoRota.Classes;
 using Newtonsoft.Json;
+using GNAutoRota;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Firebase.Auth.Providers;
 
 
 namespace GNAutoRota.Auth
@@ -23,6 +26,12 @@ namespace GNAutoRota.Auth
         {
             _firebaseAuthClient = firebaseAuthClient;
             _navigation = new NavigationPage();
+        }
+
+        public class FirebaseTokenUser
+        {
+            public string Uid { get; set; }
+            public string Email { get; set; }
         }
 
         private void OnAuthStateChanged(object? sender, UserEventArgs e)
@@ -89,7 +98,7 @@ namespace GNAutoRota.Auth
             }
         }
 
-        private static async Task<FirebaseToken> DecodeIdTokenAsync(string idToken)
+        private static async Task<FirebaseTokenUser> DecodeIdTokenAsync(string idToken)
         {
             try
             {
@@ -98,12 +107,13 @@ namespace GNAutoRota.Auth
                 var token = handler.ReadJwtToken(idToken);
 
                 // Extraindo o UID do token
-                var uid = token.Claims.FirstOrDefault(c => c.Type == "user_id")?.Value;
-
-                if (!string.IsNullOrEmpty(uid))
+                var user = new FirebaseTokenUser
                 {
-                    return new FirebaseToken { Uid = uid };
-                }
+                    Uid = token.Claims.FirstOrDefault(c => c.Type == "user_id")?.Value,
+                    Email = token.Claims.FirstOrDefault(c => c.Type == "email")?.Value
+                };
+                
+                return user;
 
             }
             catch (Exception ex)
@@ -112,11 +122,6 @@ namespace GNAutoRota.Auth
             }
 
             return null;
-        }
-
-        private class FirebaseToken
-        {
-            public string Uid { get; set; }
         }
 
         private static async Task<string> RefreshIdTokenAsync(string refreshToken)

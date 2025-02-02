@@ -1,7 +1,7 @@
-﻿using Firebase.Auth;
-using Firebase.Auth.Providers;
-using FirebaseAdmin;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using GNAutoRota.Auth;
+using FirebaseAdmin.Auth;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GNAutoRota
 {
@@ -22,13 +22,13 @@ namespace GNAutoRota
     		builder.Logging.AddDebug();
 #endif
 
+            var firebaseauthclient = new FireBaseAuthClientInjecao();
+            var authClient = firebaseauthclient.ExecutaInjecaoServico();
 
-            builder.Services.AddSingleton(new FirebaseAuthClient(new FirebaseAuthConfig()
-            { 
-                ApiKey = "AIzaSyAZ_nfIgxri-xNGEM6tXQVAYX6lfX_7PTY",
-                AuthDomain = "gnautorota.firebaseapp.com",
-                Providers = [new EmailProvider()]
-            }));
+            builder.Services.AddSingleton(authClient);
+
+            //builder.Services.AddSingleton<IFirebaseAuth>(FirebaseAuth);
+
             return builder.Build();
         }
     }
