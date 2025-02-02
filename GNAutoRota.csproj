@@ -56,21 +56,18 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="Platforms\Android\google-services.json" />
-	  <None Remove="Platforms\iOS\GoogleService-Info.plist" />
-	</ItemGroup>
+
+
+
+
 
 	<ItemGroup>
-		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</BundleResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <GoogleServicesJson Include="Platforms\Android\google-services.json">
+	  <Content Include="Platforms\Android\Resources\google-services.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </GoogleServicesJson>
+	  </Content>
+	  <Content Include="Platforms\iOS\Resources\GoogleService-Info.plist">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>

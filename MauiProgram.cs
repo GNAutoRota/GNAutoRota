@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using GNAutoRota.Auth;
 using Microsoft.Extensions.DependencyInjection;
+using Plugin.Firebase.Auth;
 
 namespace GNAutoRota
 {
@@ -22,12 +23,14 @@ namespace GNAutoRota
 #endif
 
             var firebaseauthclient = new FireBaseAuthClientInjecao();
-            
+
             //var authClient = firebaseauthclient.ExecutaInjecaoServico();
 
             //builder.Services.AddSingleton(authClient);
 
             //builder.Services.AddSingleton<IFirebaseAuth>(FirebaseAuth);
+
+            CrossFirebaseAuth.Current.SignInWithEmailAndPasswordAsync("geovanealu@gmail.com", "Geovane21");
 
             return builder.Build();
         }
