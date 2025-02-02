@@ -7,7 +7,6 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Firebase.Auth;
 using GNAutoRota.Auth;
 using GNAutoRota.Classes;
 using Newtonsoft.Json;
@@ -16,7 +15,6 @@ namespace GNAutoRota.Views
 {
     internal class LoginViewModel: INotifyPropertyChanged
     {
-        private readonly FirebaseAuthClient _firebaseAuthClient;
 
         private INavigation _navigation;
         private string email;
@@ -46,11 +44,10 @@ namespace GNAutoRota.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
         }
 
-        public LoginViewModel(INavigation navigation, FirebaseAuthClient firebaseAuthClient) 
+        public LoginViewModel(INavigation navigation) 
         {
             this._navigation = navigation;
             OnLoginbtn = new Command(OnLoginbtnTappedAsync);
-            _firebaseAuthClient = firebaseAuthClient;
         }
 
 

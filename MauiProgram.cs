@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using GNAutoRota.Auth;
-using FirebaseAdmin.Auth;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GNAutoRota
@@ -23,9 +22,10 @@ namespace GNAutoRota
 #endif
 
             var firebaseauthclient = new FireBaseAuthClientInjecao();
-            var authClient = firebaseauthclient.ExecutaInjecaoServico();
+            
+            //var authClient = firebaseauthclient.ExecutaInjecaoServico();
 
-            builder.Services.AddSingleton(authClient);
+            //builder.Services.AddSingleton(authClient);
 
             //builder.Services.AddSingleton<IFirebaseAuth>(FirebaseAuth);
 

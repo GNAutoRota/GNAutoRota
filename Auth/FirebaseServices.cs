@@ -6,25 +6,20 @@ using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Firebase.Auth;
-using FirebaseAdmin.Auth;
 using GNAutoRota.Classes;
 using Newtonsoft.Json;
 using GNAutoRota;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using Firebase.Auth.Providers;
 
 
 namespace GNAutoRota.Auth
 {
     public class FirebaseServices
     {
-        private static FirebaseAuthClient _firebaseAuthClient;
         private static NavigationPage _navigation;
 
-        public static void InicializarFirebase(FirebaseAuthClient firebaseAuthClient) 
+        public static void InicializarFirebase() 
         {
-            _firebaseAuthClient = firebaseAuthClient;
             _navigation = new NavigationPage();
         }
 
@@ -34,29 +29,15 @@ namespace GNAutoRota.Auth
             public string Email { get; set; }
         }
 
-        private void OnAuthStateChanged(object? sender, UserEventArgs e)
-        {
-            if (e.User != null)
-            {
-                //Lógica de autenticação
-                Console.WriteLine($"Usuário autenticado: {e.User.Info.DisplayName}");
-            }
-            else
-            {
-                //vai pra login
-                //Console.WriteLine("Usuário deslogado.");
-            }
-        }
-
         public static async Task Login(string email,  string password, INavigation navigation)
         {
             
-            await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(email, password);
+            //await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(email, password);
             // Salvar o token de autenticação localmente para manter a sessão
-            Preferences.Set("FIREBASE_REFRESHTOKEN", _firebaseAuthClient.User.Credential.RefreshToken);
-            Preferences.Set("FIREBASE_UID", _firebaseAuthClient.User.Info.Uid);
+            //Preferences.Set("FIREBASE_REFRESHTOKEN", _firebaseAuthClient.User.Credential.RefreshToken);
+            //Preferences.Set("FIREBASE_UID", _firebaseAuthClient.User.Info.Uid);
 
-            await navigation.PushAsync(new Dashboard(_firebaseAuthClient));
+            await navigation.PushAsync(new Dashboard());
 
         }
         public static async Task RestauraSessao()
@@ -83,9 +64,9 @@ namespace GNAutoRota.Auth
                     if ((tokenDecodificado is not null) || (tokenDecodificado.Uid == uid))
                     {
                         
-                        _firebaseAuthClient.User.Info.Uid = tokenDecodificado.Uid;
+                        //_firebaseAuthClient.User.Info.Uid = tokenDecodificado.Uid;
 
-                        await _navigation.PushAsync(new Dashboard(_firebaseAuthClient));
+                        await _navigation.PushAsync(new Dashboard());
                         
                     }
                 }

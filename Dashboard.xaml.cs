@@ -1,16 +1,12 @@
-
-using Firebase.Auth;
 using Newtonsoft.Json;
 
 namespace GNAutoRota
 {
 	public partial class Dashboard : ContentPage
 	{
-        private readonly FirebaseAuthClient _firebaseAuthClient;
 
-        public Dashboard(FirebaseAuthClient firebaseAuthClient)
+        public Dashboard()
 		{
-            _firebaseAuthClient = firebaseAuthClient;
             InitializeComponent();
             GetProfileInfo();
 			
@@ -18,7 +14,7 @@ namespace GNAutoRota
 
 		private void GetProfileInfo()
 		{
-			UserEmail.Text = _firebaseAuthClient.User.Info.Email;
+			//UserEmail.Text = _firebaseAuthClient.User.Info.Email;
         }
 	}
 }
