@@ -14,8 +14,8 @@ namespace GNAutoRota
             
             InitializeComponent();
             _firebaseAuth = firebaseAuth;
+            MainPage = new NavigationPage(new LoginPage(_firebaseAuth));
 
-            
         }
 
         protected override void OnStart()
