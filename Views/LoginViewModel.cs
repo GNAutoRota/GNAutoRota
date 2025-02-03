@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using GNAutoRota.Auth;
 using GNAutoRota.Classes;
 using Newtonsoft.Json;
+using Plugin.Firebase.Auth;
 
 namespace GNAutoRota.Views
 {
@@ -17,6 +18,7 @@ namespace GNAutoRota.Views
     {
 
         private INavigation _navigation;
+        private IFirebaseAuth _firebaseAuth;
         private string email;
         private string password;
 
@@ -44,9 +46,10 @@ namespace GNAutoRota.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
         }
 
-        public LoginViewModel(INavigation navigation) 
+        public LoginViewModel(INavigation navigation, IFirebaseAuth firebaseAuth) 
         {
             this._navigation = navigation;
+            this._firebaseAuth = firebaseAuth;
             OnLoginbtn = new Command(OnLoginbtnTappedAsync);
         }
 

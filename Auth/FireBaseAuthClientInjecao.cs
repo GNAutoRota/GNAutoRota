@@ -8,6 +8,7 @@ namespace GNAutoRota.Auth
 {
     public class FireBaseAuthClientInjecao
     {
+
         
     }
 }
