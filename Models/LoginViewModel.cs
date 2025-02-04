@@ -12,9 +12,9 @@ using GNAutoRota.Auth;
 using GNAutoRota.Classes;
 using Newtonsoft.Json;
 
-namespace GNAutoRota.Views
+namespace GNAutoRota.Models
 {
-    internal class LoginViewModel: INotifyPropertyChanged
+    internal class LoginViewModel : INotifyPropertyChanged
     {
         private readonly FirebaseAuthClient _firebaseAuthClient;
 
@@ -24,19 +24,23 @@ namespace GNAutoRota.Views
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string Email { get => email; 
-            set{
+        public string Email
+        {
+            get => email;
+            set
+            {
                 email = value;
                 RaisePropertyChanged("Email");
             }
         }
 
-        public string Password { 
-            get => password; set 
-            { 
+        public string Password
+        {
+            get => password; set
+            {
                 password = value;
                 RaisePropertyChanged("Password");
-            } 
+            }
         }
 
         public Command OnLoginbtn { get; }
@@ -46,9 +50,9 @@ namespace GNAutoRota.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
         }
 
-        public LoginViewModel(INavigation navigation, FirebaseAuthClient firebaseAuthClient) 
+        public LoginViewModel(INavigation navigation, FirebaseAuthClient firebaseAuthClient)
         {
-            this._navigation = navigation;
+            _navigation = navigation;
             OnLoginbtn = new Command(OnLoginbtnTappedAsync);
             _firebaseAuthClient = firebaseAuthClient;
         }
@@ -58,11 +62,11 @@ namespace GNAutoRota.Views
         {
             try
             {
-                await FirebaseServices.Login(Email, Password, this._navigation);
+                await FirebaseServices.Login(Email, Password, _navigation);
             }
             catch (Exception ex)
             {
-                
+
                 string jSonResponse = JsonConvert.SerializeObject(ex.Message);
                 Match match = Regex.Match(jSonResponse, @"Response:\s*(\{.*\})", RegexOptions.Singleline);
 
@@ -73,7 +77,7 @@ namespace GNAutoRota.Views
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Alerta", ex.Message, "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alerta", ex.Message, "Ok");
                     throw;
                 }
 
@@ -81,32 +85,32 @@ namespace GNAutoRota.Views
                 jsonLimpo = Regex.Replace(jsonLimpo, @"\s+", "");
 
                 var jSonObject = JsonConvert.DeserializeObject<ApiResponse>(jsonLimpo);
-                
+
                 switch (jSonObject.Error.mensagem.ToLower())
                 {
-                   case "invalid_email":
+                    case "invalid_email":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "Email inválido", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "Email inválido", "Ok");
                             break;
                         }
-                   case "missing_password":
+                    case "missing_password":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "campo senha está em branco", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "campo senha está em branco", "Ok");
                             break;
                         }
                     case "missing_email":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "campo email está em branco", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "campo email está em branco", "Ok");
                             break;
                         }
-                   case "invalid_login_credentials":
+                    case "invalid_login_credentials":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "Email ou senha incorretos", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "Email ou senha incorretos", "Ok");
                             break;
                         }
                 }
             }
-            
+
         }
     }
 }

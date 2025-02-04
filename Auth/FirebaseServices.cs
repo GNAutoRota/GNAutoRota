@@ -13,6 +13,10 @@ using GNAutoRota;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Plugin.FirebaseAuth;
 using FirebaseAdmin.Auth;
+using Google.Apis.Http;
+using System.Net.Http;
+using GNAutoRota.Views;
+using GNAutoRota.ViewPrincipal;
 
 namespace GNAutoRota.Auth
 {
@@ -38,54 +42,44 @@ namespace GNAutoRota.Auth
         public static async Task Login(string email,  string password, INavigation navigation)
         {
             await _firebaseAuth.Instance.SignInWithEmailAndPasswordAsync(email, password);
+            
+            string idToken = await _firebaseAuth.Instance.CurrentUser.GetIdTokenAsync(true);
+            Preferences.Set("FIREBASE_IDTOKEN", idToken);
+            Preferences.Set("FIREBASE_UID", _firebaseAuth.Instance.CurrentUser.Uid);
+            //await _firebaseAuth.Instance.SignInWithCustomTokenAsync(idTokenTeste);
 
-            //await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(email, password);
-            // Salvar o token de autenticação localmente para manter a sessão
-            string idTokenTeste = await _firebaseAuth.Instance.CurrentUser.GetIdTokenAsync(true);
-            var idTokenTesteFalse = await _firebaseAuth.Instance.CurrentUser.GetIdTokenAsync(false);
-
-            //_firebaseAuth.
-            await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(email, password);
-            await _firebaseAuth.Instance.SignInWithCustomTokenAsync(idTokenTeste);
-
-            Preferences.Set("FIREBASE_REFRESHTOKEN", idTokenTeste);
-            Preferences.Set("FIREBASE_REFRESHTOKEN", _firebaseAuthClient.User.Credential.RefreshToken);
-            Preferences.Set("FIREBASE_UID", _firebaseAuthClient.User.Info.Uid);
-
-            await navigation.PushAsync(new Dashboard(_firebaseAuthClient));
+            await navigation.PushAsync(new DashBoard(_firebaseAuthClient, _firebaseAuth));
 
         }
         public static async Task RestauraSessao()
         {
-            var refreshToken = Preferences.Get("FIREBASE_REFRESHTOKEN", null);
+            var idToken = Preferences.Get("FIREBASE_IDTOKEN", null);
             var uid = Preferences.Get("FIREBASE_UID", null);
 
-            if (string.IsNullOrEmpty(refreshToken) || string.IsNullOrEmpty(uid))
+            //O usuário já está logado
+            if (_firebaseAuth.Instance.CurrentUser is not null)
             {
-                //Console.WriteLine("Nenhum token ou UID encontrado. O usuário precisa fazer login.");
                 return;
             }
 
-            //Recuperar o IdToken
+            //Sem idToken também não consigo restaurar sessão
+            if (idToken is null)
+            {    
+                return;
+            }
+
+            //Recupera o IdToken
             try
             {
-                var novoIdToken = await RefreshIdTokenAsync(refreshToken);
-                //var userInfo = JsonConvert.DeserializeObject<FirebaseAuth>(Preferences.Get("FIREBASE_IDTOKEN", ""));
-
-                if (!string.IsNullOrEmpty(novoIdToken)) 
+                var tokenDecodificado = await DecodeIdTokenAsync(idToken);
+                if ((tokenDecodificado is not null) || (tokenDecodificado.Uid == uid))
                 {
-                    var tokenDecodificado = await DecodeIdTokenAsync(novoIdToken);
+                    //não sei se essa é a forma correta de refazer o login
+                    _firebaseAuth.Instance.SignInWithCustomTokenAsync(idToken);
 
-                    if ((tokenDecodificado is not null) || (tokenDecodificado.Uid == uid))
-                    {
-                        
-                        _firebaseAuthClient.User.Info.Uid = tokenDecodificado.Uid;
+                    await _navigation.PushAsync(new DashBoard(_firebaseAuthClient, _firebaseAuth));
 
-                        await _navigation.PushAsync(new Dashboard(_firebaseAuthClient));
-                        
-                    }
                 }
-
             }
             catch(Exception ex) 
             {
@@ -122,17 +116,8 @@ namespace GNAutoRota.Auth
 
         private static async Task<string> RefreshIdTokenAsync(string refreshToken)
         {
-
-            var url = $"https://securetoken.googleapis.com/v1/token?key={"AIzaSyAZ_nfIgxri-xNGEM6tXQVAYX6lfX_7PTY"}";
-            var payload = new
-            {
-                grant_type = "refresh_token",
-                refresh_token = refreshToken
-            };
-
-            using (var httpClient = new HttpClient())
-            {
-                var response = await httpClient.PostAsync(url, new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json"));
+            /* Falta implementar 
+            var response = RequisicoesGoogleServico(_httpClient);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -145,7 +130,8 @@ namespace GNAutoRota.Auth
                     Console.WriteLine($"Erro ao renovar o token: {response.StatusCode}");
                     return null;
                 }
-            }
+            */
+            return null;
         }
 
 

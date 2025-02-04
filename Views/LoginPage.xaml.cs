@@ -1,4 +1,5 @@
 using Firebase.Auth;
+using GNAutoRota.Models;
 using Plugin.FirebaseAuth;
 using System.Security.Cryptography.X509Certificates;
 

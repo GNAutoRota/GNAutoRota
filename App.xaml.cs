@@ -1,9 +1,13 @@
-﻿using Firebase.Auth;
+﻿using System.Net.Http;
+using AndroidX.Navigation;
+using Firebase.Auth;
 using Firebase.Auth.Repository;
 using Firebase.Auth.Requests;
 using FirebaseAdmin.Auth;
 using GNAutoRota.Auth;
+using GNAutoRota.ViewPrincipal;
 using GNAutoRota.Views;
+using Microsoft.Maui.Storage;
 using Plugin.FirebaseAuth;
 
 namespace GNAutoRota
@@ -12,6 +16,7 @@ namespace GNAutoRota
     {
         private readonly FirebaseAuthClient _firebaseAuthClient;
         private IFirebaseAuth _firebaseAuth;
+        private INavigation _navigation;
 
         public App(FirebaseAuthClient firebaseAuthClient, IFirebaseAuth firebaseAuth)
         {
@@ -20,12 +25,7 @@ namespace GNAutoRota
             _firebaseAuthClient = firebaseAuthClient;
             _firebaseAuth = firebaseAuth;
 
-            
-            
             MainPage = new NavigationPage(new LoginPage(_firebaseAuthClient, _firebaseAuth));
-            
-
-
         }
 
         protected override void OnStart()
@@ -33,22 +33,25 @@ namespace GNAutoRota
             base.OnStart();
             // Lógica para quando o app Iniciar
             FirebaseServices.InicializarFirebase(_firebaseAuthClient, _firebaseAuth);
-            //FirebaseServices.RestauraSessao();
-            /*FirebaseServices.RestauraSessao().ContinueWith(task =>
+            
+            if (_firebaseAuth.Instance.CurrentUser is not null)
             {
-                if (task.IsFaulted)
-                {
-                    // Trate erros, se houver
-                    Console.WriteLine($"Erro ao restaurar a sessão: {task.Exception}");
-                }
-            }); */
+                MainPage = new NavigationPage(new DashBoard(_firebaseAuthClient, _firebaseAuth));
+            }
         }
 
         protected override void OnResume()
         {
             base.OnResume();
             // Lógica para quando o app volta para o primeiro plano
-            FirebaseServices.RestauraSessao();
+            if (_firebaseAuth.Instance.CurrentUser is null)
+            {
+                FirebaseServices.RestauraSessao();
+                return;
+            }
+
+            MainPage = new NavigationPage(new LoginPage(_firebaseAuthClient, _firebaseAuth));
+
         }
 
     }
