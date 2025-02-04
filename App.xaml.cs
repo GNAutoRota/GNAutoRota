@@ -4,20 +4,25 @@ using Firebase.Auth.Requests;
 using FirebaseAdmin.Auth;
 using GNAutoRota.Auth;
 using GNAutoRota.Views;
+using Plugin.FirebaseAuth;
 
 namespace GNAutoRota
 {
     public partial class App : Application
     {
         private readonly FirebaseAuthClient _firebaseAuthClient;
+        private IFirebaseAuth _firebaseAuth;
 
-        public App(FirebaseAuthClient firebaseAuthClient)
+        public App(FirebaseAuthClient firebaseAuthClient, IFirebaseAuth firebaseAuth)
         {
             
             InitializeComponent();
             _firebaseAuthClient = firebaseAuthClient;
+            _firebaseAuth = firebaseAuth;
+
             
-            MainPage = new NavigationPage(new LoginPage(_firebaseAuthClient));
+            
+            MainPage = new NavigationPage(new LoginPage(_firebaseAuthClient, _firebaseAuth));
             
 
 
@@ -27,8 +32,8 @@ namespace GNAutoRota
         {
             base.OnStart();
             // Lógica para quando o app Iniciar
-            FirebaseServices.InicializarFirebase(_firebaseAuthClient);
-            FirebaseServices.RestauraSessao();
+            FirebaseServices.InicializarFirebase(_firebaseAuthClient, _firebaseAuth);
+            //FirebaseServices.RestauraSessao();
             /*FirebaseServices.RestauraSessao().ContinueWith(task =>
             {
                 if (task.IsFaulted)

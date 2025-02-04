@@ -27,13 +27,10 @@ namespace GNAutoRota
             var firebaseauthclient = new FireBaseAuthClientInjecao();
             var authClient = firebaseauthclient.ExecutaInjecaoServico();
 
-            builder.Services.AddSingleton<IFirebaseAuthClient>(authClient);
+            builder.Services.AddSingleton(authClient);
 
             builder.Services.AddSingleton<IFirebaseAuth>(CrossFirebaseAuth.Current);
-
             
-
-            //builder.Services.AddSingleton<IFirebaseAuth>(FirebaseAuth);
 
             return builder.Build();
         }
