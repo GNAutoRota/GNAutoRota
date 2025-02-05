@@ -3,13 +3,19 @@
     x:Class="GNAutoRota.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:a="clr-namespace:GNAutoRota.ViewPrincipal"
     xmlns:local="clr-namespace:GNAutoRota.Views"
     Shell.FlyoutBehavior="Disabled"
     Title="GNAutoRota">
 
     <ShellContent
-        Title="Home"
+        Title="Login"
         ContentTemplate="{DataTemplate local:LoginPage}"
         Route="MainPage" />
+
+    <ShellContent
+    Title="Página Inicial"
+    ContentTemplate="{DataTemplate a:DashBoard}"
+    Route="MainPage" />
 
 </Shell>

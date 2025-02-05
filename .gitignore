@@ -38,7 +38,7 @@ project.fragment.lock.json
 *_ViewStart.cs
 
 # Configurações específicas de Android
-.gradle/
+--.gradle/
 .localhistory/
 **/android/bin/
 **/android/obj/
@@ -60,7 +60,7 @@ App_Resources/
 Resources/Raw/*.zip
 
 # Certificados e senhas
-*.keystore
+--*.keystore
 *.jks
 *.pfx
 *.key
@@ -90,5 +90,5 @@ $RECYCLE.BIN/
 *.sbr
 
 # Arquivos de Configuração do Firebase (se estiver usando)
-google-services.json
-GoogleService-Info.plist
+--google-services.json
+--GoogleService-Info.plist
