@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "899851676646",
+    "project_id": "gnautorota",
+    "storage_bucket": "gnautorota.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899851676646:android:e2d83e941d38e64b594427",
+        "android_client_info": {
+          "package_name": "com.GNAutoRota.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGWI1hWDnEoc7TtSxRQjzCyG4xU8RPKTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

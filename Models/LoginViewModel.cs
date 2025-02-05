@@ -8,14 +8,15 @@ using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Firebase.Auth;
+using GNAutoRota.Auth;
 using GNAutoRota.Classes;
 using Newtonsoft.Json;
 
-namespace GNAutoRota.Views.Login
+namespace GNAutoRota.Models
 {
-    internal class LoginViewModel: INotifyPropertyChanged
+    internal class LoginViewModel : INotifyPropertyChanged
     {
-        public string webapikey = "AIzaSyAZ_nfIgxri-xNGEM6tXQVAYX6lfX_7PTY";
+        private readonly FirebaseAuthClient _firebaseAuthClient;
 
         private INavigation _navigation;
         private string email;
@@ -23,19 +24,23 @@ namespace GNAutoRota.Views.Login
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string Email { get => email; 
-            set{
+        public string Email
+        {
+            get => email;
+            set
+            {
                 email = value;
                 RaisePropertyChanged("Email");
             }
         }
 
-        public string Password { 
-            get => password; set 
-            { 
+        public string Password
+        {
+            get => password; set
+            {
                 password = value;
                 RaisePropertyChanged("Password");
-            } 
+            }
         }
 
         public Command OnLoginbtn { get; }
@@ -45,29 +50,23 @@ namespace GNAutoRota.Views.Login
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));
         }
 
-        public LoginViewModel(INavigation navigation) 
+        public LoginViewModel(INavigation navigation, FirebaseAuthClient firebaseAuthClient)
         {
-            this._navigation = navigation;
+            _navigation = navigation;
             OnLoginbtn = new Command(OnLoginbtnTappedAsync);
+            _firebaseAuthClient = firebaseAuthClient;
         }
 
 
         private async void OnLoginbtnTappedAsync(object obj)
         {
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(webapikey));
             try
             {
-                var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email,Password);
-                var content = await auth.GetFreshAuthAsync();
-                var serializedContent = JsonConvert.SerializeObject(content);
-                Preferences.Set("FreshFirebaseToken", serializedContent);
-                
-
-                await this._navigation.PushAsync(new Dashboard());
+                await FirebaseServices.Login(Email, Password, _navigation);
             }
             catch (Exception ex)
             {
-                
+
                 string jSonResponse = JsonConvert.SerializeObject(ex.Message);
                 Match match = Regex.Match(jSonResponse, @"Response:\s*(\{.*\})", RegexOptions.Singleline);
 
@@ -78,7 +77,7 @@ namespace GNAutoRota.Views.Login
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Alerta", ex.Message, "Ok");
+                    await Application.Current.MainPage.DisplayAlert("Alerta", ex.Message, "Ok");
                     throw;
                 }
 
@@ -86,27 +85,32 @@ namespace GNAutoRota.Views.Login
                 jsonLimpo = Regex.Replace(jsonLimpo, @"\s+", "");
 
                 var jSonObject = JsonConvert.DeserializeObject<ApiResponse>(jsonLimpo);
-                
+
                 switch (jSonObject.Error.mensagem.ToLower())
                 {
-                   case "invalid_email":
+                    case "invalid_email":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "Email inválido", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "Email inválido", "Ok");
                             break;
                         }
-                   case "missing_password":
+                    case "missing_password":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "Falta adicionar uma senha", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "campo senha está em branco", "Ok");
                             break;
                         }
-                   case "invalid_login_credentials":
+                    case "missing_email":
                         {
-                            await App.Current.MainPage.DisplayAlert("Alerta", "Email ou senha incorretos", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "campo email está em branco", "Ok");
+                            break;
+                        }
+                    case "invalid_login_credentials":
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "Email ou senha incorretos", "Ok");
                             break;
                         }
                 }
             }
-            
+
         }
     }
 }
