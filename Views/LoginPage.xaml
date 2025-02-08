@@ -11,7 +11,7 @@
 
         <!-- Imagem (logo) -->
             <Image
-                Source="dotnet_bot.png"
+                Source="icon_log_temp.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
                 SemanticProperties.Description="dot net bot in a race car number eight" 
