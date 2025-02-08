@@ -7,14 +7,14 @@
     <ScrollView>
         <VerticalStackLayout 
             Padding="30,0"
-            Spacing="25">
+            Spacing="10"
+            BackgroundColor="#39688F" >
 
         <!-- Imagem (logo) -->
             <Image
                 Source="icon_log_temp.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" 
                 Margin="0,50"
              />
         
@@ -114,7 +114,7 @@
                         <Button Text="Entrar"
                             Margin="35"
                             FontSize="16"
-                            BackgroundColor="#0078D4"
+                            BackgroundColor="#39688F"
                             TextColor="White"
                             HorizontalOptions="CenterAndExpand"
                             VerticalOptions="EndAndExpand"
