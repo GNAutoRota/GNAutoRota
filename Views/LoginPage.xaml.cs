@@ -20,7 +20,7 @@ public partial class LoginPage : ContentPage
         passwordEntry.IsPassword = !passwordEntry.IsPassword;
 
         var imageButton = (ImageButton)Sender;
-        imageButton.Source = passwordEntry.IsPassword ? "view.png" : "hide.png";
+        imageButton.Source = passwordEntry.IsPassword ? "hide.png" : "view.png";
     }
 
 }
