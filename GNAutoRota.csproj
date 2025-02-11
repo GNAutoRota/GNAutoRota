@@ -66,6 +66,9 @@
 		<PackageReference Include="FirebaseAdmin" Version="3.1.0" />
 		<PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
 		<PackageReference Include="FirebaseDatabase.net" Version="4.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
@@ -98,4 +101,7 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+		<EmbeddedResource Include="appsettings.json" />
+	</ItemGroup>
 </Project>

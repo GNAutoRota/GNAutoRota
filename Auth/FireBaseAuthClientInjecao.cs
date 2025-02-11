@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
+using GNAutoRota.Classes;
 
 namespace GNAutoRota.Auth
 {
@@ -14,9 +15,9 @@ namespace GNAutoRota.Auth
         {
             return new FirebaseAuthClient(new FirebaseAuthConfig()
             {
-                ApiKey = "AIzaSyAZ_nfIgxri-xNGEM6tXQVAYX6lfX_7PTY",
+                ApiKey = AppSettings.GetApiKey("FireBase"),
                 AuthDomain = "gnautorota.firebaseapp.com",
-                
+
                 Providers = [new EmailProvider()]
             });
         }
