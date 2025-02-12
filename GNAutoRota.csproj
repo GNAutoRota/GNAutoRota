@@ -66,8 +66,8 @@
 
 	<ItemGroup>
 		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</BundleResource>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </BundleResource>
 	</ItemGroup>
 
 	<ItemGroup>

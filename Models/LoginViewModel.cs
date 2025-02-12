@@ -66,44 +66,19 @@ namespace GNAutoRota.Models
             }
             catch (Exception ex)
             {
-
-                string jSonResponse = JsonConvert.SerializeObject(ex.Message);
-                Match match = Regex.Match(jSonResponse, @"Response:\s*(\{.*\})", RegexOptions.Singleline);
-
-                string response;
-                if (match.Success)
+                switch (ex.Message)
                 {
-                    response = match.Groups[1].Value;
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Alerta", ex.Message, "Ok");
-                    throw;
-                }
-
-                string jsonLimpo = response.Replace("\\n", "").Replace("\\\"", "\"");
-                jsonLimpo = Regex.Replace(jsonLimpo, @"\s+", "");
-
-                var jSonObject = JsonConvert.DeserializeObject<ApiResponse>(jsonLimpo);
-
-                switch (jSonObject.Error.mensagem.ToLower())
-                {
-                    case "invalid_email":
+                    case Constantes.emailFormatoInvalido:
                         {
-                            await Application.Current.MainPage.DisplayAlert("Alerta", "Email inválido", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "Email em formato inválido", "Ok");
                             break;
                         }
-                    case "missing_password":
+                    case Constantes.emailOuSenhaVazio:
                         {
-                            await Application.Current.MainPage.DisplayAlert("Alerta", "campo senha está em branco", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Alerta", "Email ou senha vazios", "Ok");
                             break;
                         }
-                    case "missing_email":
-                        {
-                            await Application.Current.MainPage.DisplayAlert("Alerta", "campo email está em branco", "Ok");
-                            break;
-                        }
-                    case "invalid_login_credentials":
+                    case Constantes.emailOuSenhaIncorretos:
                         {
                             await Application.Current.MainPage.DisplayAlert("Alerta", "Email ou senha incorretos", "Ok");
                             break;
