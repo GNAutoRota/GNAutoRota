@@ -28,9 +28,5 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>Podemos usar sua localização o tempo todo?</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Podemos usar sua localização quando seu aplicativo estiver sendo usado?</string>
 </dict>
 </plist>
