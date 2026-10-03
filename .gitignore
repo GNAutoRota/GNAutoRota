@@ -89,6 +89,7 @@ $RECYCLE.BIN/
 *.rsp
 *.sbr
 
-# Arquivos de Configuração do Firebase (se estiver usando)
+# Arquivos de Configuração(se estiver usando)
+appsettings.json
 --google-services.json
 --GoogleService-Info.plist
